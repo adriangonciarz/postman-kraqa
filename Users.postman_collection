@@ -1,0 +1,192 @@
+{
+	"id": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+	"name": "Users",
+	"description": "",
+	"order": [],
+	"folders": [
+		{
+			"id": "859a4bf4-aca2-5d56-23c8-ebb057e4f9e9",
+			"name": "TC1 - Pobranie Listy Użytkowników",
+			"description": "",
+			"order": [
+				"8f8fa586-7bfb-52c3-2db7-b597e60857c3"
+			],
+			"owner": 0
+		},
+		{
+			"id": "b092f07c-e9cc-a75e-7d9d-28cb841f590e",
+			"name": "TC2 - Sprawdzenie Danych Użytkownika 1",
+			"description": "",
+			"order": [
+				"36524bdc-f6b5-6f1c-2cdb-eaa09ee67a69"
+			],
+			"owner": 0
+		},
+		{
+			"id": "2ae01d3c-86f8-9391-98ff-25d5d3bb646b",
+			"name": "TC3 - Stworzenie użytkownika",
+			"description": "",
+			"order": [
+				"f7dabcbe-f1c9-cbe4-f66b-254c925e9a94"
+			],
+			"owner": 0,
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb"
+		},
+		{
+			"id": "ead40513-bf26-6612-55da-78668174ac05",
+			"name": "TC4 - Stworzenie użytkownika + zmienne środowiskowe",
+			"description": "",
+			"order": [
+				"ec288c0f-b637-57fb-4111-72849abf7a1a",
+				"6ef70cb3-96ca-fa61-b0a7-2cf3b8dd9959"
+			],
+			"owner": 0,
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb"
+		},
+		{
+			"id": "6be554cb-b0dd-ed67-92f3-f5bf65b8ea41",
+			"name": "TC5 - Stworzenie użytkownika + generacja danych",
+			"description": "",
+			"order": [
+				"31013e74-9960-ea29-aeb0-741eb09b3e3b",
+				"94ea5717-5536-d4b7-6f57-62648d5b61c7"
+			],
+			"owner": 0,
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb"
+		}
+	],
+	"timestamp": 1495694224436,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "31013e74-9960-ea29-aeb0-741eb09b3e3b",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{host}}/users",
+			"preRequestScript": "var timestamp = Date.now();\n\nvar generatedFirstName = \"James\" + timestamp;\nvar generatedLastName = \"Monroe\" + timestamp;\n\npostman.setEnvironmentVariable(\"first_name\", generatedFirstName);\npostman.setEnvironmentVariable(\"last_name\", generatedLastName);",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar createdUserId = jsonData.id; \nvar actualFirstName = jsonData.first_name;\nvar actualLastName = jsonData.last_name;\nvar expectedFirstName = environment.first_name;\nvar expectedLastName = environment.last_name;\ntests[\"Oczekiwane first_name użytkownika: \" + expectedFirstName + \", rzeczywiste: \" + actualFirstName] = actualFirstName === expectedFirstName;\ntests[\"Oczekiwane last_name użytkownika: \" + expectedLastName + \", rzeczywiste: \" + actualLastName] = actualLastName === expectedLastName;\n\npostman.setEnvironmentVariable(\"created_user_id\", createdUserId);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495696511061,
+			"name": "Stwórz użytkownika Marilyn Monroe",
+			"description": "",
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+			"responses": [],
+			"rawModeData": "{\n  \"first_name\": \"{{first_name}}\",\n  \"last_name\": \"{{last_name}}\"\n}"
+		},
+		{
+			"id": "36524bdc-f6b5-6f1c-2cdb-eaa09ee67a69",
+			"headers": "",
+			"url": "{{host}}/users/1",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar firstName = jsonData.first_name;\nvar lastName = jsonData.last_name;\ntests[\"Oczekiwane first_name użytkownika: John, rzeczywiste: \" + firstName] = firstName === \"John\";\ntests[\"Oczekiwane last_name użytkownika: Doe, rzeczywiste: \" + lastName] = lastName === \"Doe\";",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495695352224,
+			"name": "Pobierz użytkownika z ID=1 i zweryfikuj jego dane",
+			"description": "",
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+			"responses": []
+		},
+		{
+			"id": "6ef70cb3-96ca-fa61-b0a7-2cf3b8dd9959",
+			"headers": "",
+			"url": "{{host}}/users/{{created_user_id}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar createdUserId = jsonData.id; \nvar actualFirstName = jsonData.first_name;\nvar actualLastName = jsonData.last_name;\nvar expectedFirstName = environment.first_name;\nvar expectedLastName = environment.last_name;\ntests[\"Oczekiwane first_name użytkownika: \" + expectedFirstName + \", rzeczywiste: \" + actualFirstName] = actualFirstName === expectedFirstName;\ntests[\"Oczekiwane last_name użytkownika: \" + expectedLastName + \", rzeczywiste: \" + actualLastName] = actualLastName === expectedLastName;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495696237679,
+			"name": "Pobierz informacje o stworzonym użytkowniku",
+			"description": "",
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+			"responses": []
+		},
+		{
+			"id": "8f8fa586-7bfb-52c3-2db7-b597e60857c3",
+			"headers": "",
+			"url": "{{host}}/users",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar numberOfUsers = jsonData.length;\ntests[\"Oczekiwana liczba użytkowników: 2, rzeczywista liczba użytkowników: \" + numberOfUsers] = numberOfUsers === 2;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495695159630,
+			"name": "Pobierz listę użytkowników i zweryfikuj liczbę",
+			"description": "",
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+			"responses": []
+		},
+		{
+			"id": "94ea5717-5536-d4b7-6f57-62648d5b61c7",
+			"headers": "",
+			"url": "{{host}}/users/{{created_user_id}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar createdUserId = jsonData.id; \nvar actualFirstName = jsonData.first_name;\nvar actualLastName = jsonData.last_name;\nvar expectedFirstName = environment.first_name;\nvar expectedLastName = environment.last_name;\ntests[\"Oczekiwane first_name użytkownika: \" + expectedFirstName + \", rzeczywiste: \" + actualFirstName] = actualFirstName === expectedFirstName;\ntests[\"Oczekiwane last_name użytkownika: \" + expectedLastName + \", rzeczywiste: \" + actualLastName] = actualLastName === expectedLastName;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495696466462,
+			"name": "Pobierz informacje o stworzonym użytkowniku",
+			"description": "",
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+			"responses": []
+		},
+		{
+			"id": "ec288c0f-b637-57fb-4111-72849abf7a1a",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{host}}/users",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar createdUserId = jsonData.id; \nvar actualFirstName = jsonData.first_name;\nvar actualLastName = jsonData.last_name;\nvar expectedFirstName = environment.first_name;\nvar expectedLastName = environment.last_name;\ntests[\"Oczekiwane first_name użytkownika: \" + expectedFirstName + \", rzeczywiste: \" + actualFirstName] = actualFirstName === expectedFirstName;\ntests[\"Oczekiwane last_name użytkownika: \" + expectedLastName + \", rzeczywiste: \" + actualLastName] = actualLastName === expectedLastName;\n\npostman.setEnvironmentVariable(\"created_user_id\", createdUserId);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495696171380,
+			"name": "Stwórz użytkownika Marilyn Monroe",
+			"description": "",
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+			"responses": [],
+			"rawModeData": "{\n  \"first_name\": \"{{first_name}}\",\n  \"last_name\": \"{{last_name}}\"\n}"
+		},
+		{
+			"id": "f7dabcbe-f1c9-cbe4-f66b-254c925e9a94",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{host}}/users",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar actualFirstName = jsonData.first_name;\nvar actualLastName = jsonData.last_name;\nvar expectedFirstName = \"Marilyn\";\nvar expectedLastName = \"Monroe\";\ntests[\"Oczekiwane first_name użytkownika: \" + expectedFirstName + \", rzeczywiste: \" + actualFirstName] = actualFirstName === expectedFirstName;\ntests[\"Oczekiwane last_name użytkownika: \" + expectedLastName + \", rzeczywiste: \" + actualLastName] = actualLastName === expectedLastName;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495695748622,
+			"name": "Stwórz użytkownika Marilyn Monroe",
+			"description": "",
+			"collectionId": "aea6724a-724c-9a28-ee6b-d526c846d1bb",
+			"responses": [],
+			"rawModeData": "{\n  \"first_name\": \"Marilyn\",\n  \"last_name\": \"Monroe\"\n}"
+		}
+	]
+}
